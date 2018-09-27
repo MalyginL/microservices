@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: skdo-hazelcast
+server:
+  port: 8778
+eureka:
+  client:
+     service-url:
+          defaultZone: "http://127.0.0.1:8761/eureka/"
+  instance:
+    preferIpAddress: true
+  healthcheck:
+    enabled: true

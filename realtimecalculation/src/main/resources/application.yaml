@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: real-time-calculation
+server:
+  port: 8777
+eureka:
+  client:
+     service-url:
+          defaultZone: "http://127.0.0.1:8761/eureka/"
+  instance:
+    preferIpAddress: true
+  healthcheck:
+    enabled: true
+db:
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://192.168.101.168:3306/Etalon
+  username: users
+  password: password
+hibernate:
+  dialect: org.hibernate.dialect.MySQL5Dialect
+  show_sql: true
+  current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+  batch.size: 20
+entitymanager:
+  packagesToScan: client.hibernate.model
