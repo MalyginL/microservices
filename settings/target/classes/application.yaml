@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: settings-server
+server:
+  port: 8770
+eureka:
+  client:
+     service-url:
+          defaultZone: "http://127.0.0.1:8761/eureka/"
+  instance:
+    preferIpAddress: true
+  healthcheck:
+    enabled: true
+db:
+  driver: com.postgresql.jdbc.driver
+  url: jdbc:postgresql://192.168.101.58:5432/Production
+  username: users
+  password: password
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true
+  current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+  batch.size: 1
+entitymanager:
+  packagesToScan: client.hibernate.model
