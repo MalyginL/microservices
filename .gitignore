@@ -225,3 +225,12 @@ hs_err_pid*
 .idea/uiDesigner.xml
 .idea/vcs.xml
 .idea/workspace.xml
+settings/settings.iml
+.idea/libraries/Maven__org_postgresql_postgresql_42_2_5.xml
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/7316ae84-25c7-4169-b8ff-119972d3f5ce.xml
+.idea/dataSources/7316ae84-25c7-4169-b8ff-119972d3f5ce/storage_v2/_src_/database/Production.2cxO3w.meta
+.idea/dataSources/7316ae84-25c7-4169-b8ff-119972d3f5ce/storage_v2/_src_/database/Production.2cxO3w/schema/public.abK9xQ.meta
+.idea/dataSources.xml
+.idea/dataSources.xml

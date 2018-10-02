@@ -1,10 +1,10 @@
-package settings.db;
+package settings.db.model;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Settings", schema = "Production", catalog = "")
+@Table(name = "settings", schema = "public", catalog = "")
 public class SettingsModel {
 
     private int id;
@@ -21,8 +21,9 @@ public class SettingsModel {
     public void setId(int id) {
         this.id = id;
     }
+
     @Basic
-    @Column(name = "device", nullable = false)
+    @Column(name = "device", nullable = false, length = 10)
     public String getDevice() {
         return device;
     }
@@ -30,8 +31,9 @@ public class SettingsModel {
     public void setDevice(String device) {
         this.device = device;
     }
+
     @Basic
-    @Column(name = "comport", nullable = false)
+    @Column(name = "comport", nullable = false, length = 10)
     public String getComport() {
         return comport;
     }

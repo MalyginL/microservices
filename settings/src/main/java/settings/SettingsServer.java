@@ -7,9 +7,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class Settings {
+public class SettingsServer {
     public static void main(String[] args) {
-        SpringApplication.run(Settings.class, args);
+        SpringApplication.run(SettingsServer.class, args);
     }
 
 
