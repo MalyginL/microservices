@@ -7,6 +7,11 @@ import java.util.Objects;
 @Table(name = "settings", schema = "public", catalog = "")
 public class SettingsModel {
 
+    public SettingsModel(String device, String comport) {
+        this.device = device;
+        this.comport = comport;
+    }
+
     private int id;
     private String device;
     private String comport;

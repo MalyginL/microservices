@@ -13,7 +13,6 @@ public interface SettingsDao {
 
     void register (String com, String device);
 
-    void updateCom(String com, String device);
 
 
 }

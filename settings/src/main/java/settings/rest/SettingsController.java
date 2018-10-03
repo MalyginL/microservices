@@ -1,10 +1,7 @@
 package settings.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import settings.db.model.SettingsModel;
 
 import java.util.List;
@@ -29,5 +26,11 @@ public class SettingsController {
     public String test() {
         return "success";
     }
+
+    @RequestMapping(value="/register", method = RequestMethod.POST)
+    public void register(@RequestBody SettingsModel model){
+        service.register(model.getComport(), model.getDevice());
+    }
+
 
 }

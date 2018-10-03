@@ -33,12 +33,9 @@ public class SettingsDaoImpl implements SettingsDao {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void register(String com, String device) {
-
+        entityManager.merge(new SettingsModel(device,com));
     }
 
-    @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void updateCom(String com, String device) {
 
-    }
+
 }

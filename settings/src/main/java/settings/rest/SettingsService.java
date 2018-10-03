@@ -21,4 +21,8 @@ public class SettingsService {
         return dao.getAll();
     }
 
+    public void register(String com, String device){
+        dao.register(com, device);
+    }
+
 }
