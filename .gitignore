@@ -234,3 +234,5 @@ settings/settings.iml
 .idea/dataSources/7316ae84-25c7-4169-b8ff-119972d3f5ce/storage_v2/_src_/database/Production.2cxO3w/schema/public.abK9xQ.meta
 .idea/dataSources.xml
 .idea/dataSources.xml
+.idea/libraries/Maven__org_scream3r_jssc_2_8_0.xml
+deviceservice/deviceservice.iml
