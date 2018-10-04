@@ -6,34 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
-import project.db.model.SendModel;
 import project.jssc.model.CommandList;
 import project.jssc.model.TaskPojo;
 
 import javax.annotation.PostConstruct;
 import java.util.Comparator;
 import java.util.concurrent.*;
+
 @Service
 @EnableAsync
-public class JsscManagement{
-
-    public void Configure(String portName){
-        idComparator = (o1, o2) -> Integer.signum(o2.getPriority() - o1.getPriority());
-        queue = new PriorityBlockingQueue<>(5, idComparator);
-        if (cyclicBarrier.getNumberWaiting() == 1) {
-            try {
-                cyclicBarrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (BrokenBarrierException e) {
-                e.printStackTrace();
-            }
-        }
-        connect(portName);
-        run();
-    }
-
-
+public class JsscManagement {
 
     @Autowired
     CommandList commandList;
@@ -45,14 +27,39 @@ public class JsscManagement{
     public static CopyOnWriteArrayList<String> activeChannels = new CopyOnWriteArrayList<>();
     public static PriorityBlockingQueue<TaskPojo> queue;
 
+    @PostConstruct
+    public void postconstruct(){
+        idComparator = (o1, o2) -> Integer.signum(o2.getPriority() - o1.getPriority());
+        queue = new PriorityBlockingQueue<>(5, idComparator);
+    }
 
 
-    public static void getPortNames()
-    {
-       String[] a =  SerialPortList.getPortNames();
-       for (int i=0;i<a.length;i++){
-           System.out.println("Avaible ports: " + a[i]);
-       }
+    public boolean configure(String portName) {
+        if (cyclicBarrier.getNumberWaiting() == 1) {
+            try {
+                cyclicBarrier.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+        }
+        if (connect(portName)) {
+            run();
+            return true;
+        }
+        return false;
+
+    }
+
+
+
+
+    public static void getPortNames() {
+        String[] a = SerialPortList.getPortNames();
+        for (int i = 0; i < a.length; i++) {
+            System.out.println("Avaible ports: " + a[i]);
+        }
 
     }
 
@@ -67,7 +74,7 @@ public class JsscManagement{
     }
 
 
-    public boolean connect(String portName){
+    public boolean connect(String portName) {
         serialPort = new SerialPort(portName);
         try {
             serialPort.openPort();
@@ -119,7 +126,7 @@ public class JsscManagement{
                 e.printStackTrace();
             }
             Thread.currentThread().sleep(500);
-            
+
         } catch (SerialPortException ex) {
             ex.printStackTrace();
         } catch (InterruptedException e) {
@@ -148,15 +155,16 @@ public class JsscManagement{
         sb.delete(j, sb.length());
     }
 
-    public static void startChannel(String channel) {
+    public void startChannel(String channel) {
         if (!activeChannels.stream()
                 .anyMatch(t -> t.equals(channel)))
             activeChannels.add(channel);
+        System.out.println(JsscManagement.queue.size());
         JsscManagement.queue.add(new TaskPojo(CommandList.destroyBuffer(Integer.valueOf(channel)), 5));
         System.out.println("Channel added: " + channel);
     }
 
-    public static void stopChannel(String channel) {
+    public void stopChannel(String channel) {
         activeChannels.removeIf(x -> x.equals(channel));
         System.out.println("Channel removed: " + channel);
         System.out.println("Current channels: ");
@@ -164,7 +172,7 @@ public class JsscManagement{
     }
 
 
-@Async
+    @Async
     public void run() {
 
         Thread.currentThread().setName("JSSC");
@@ -173,7 +181,7 @@ public class JsscManagement{
             try {
                 if (queue.size() == 0)
                     serialPort.writeBytes(CommandList.GETDATA);
-                else{
+                else {
                     serialPort.writeBytes(queue.poll().getTask());
                 }
                 Thread.currentThread().sleep(900);
@@ -186,11 +194,9 @@ public class JsscManagement{
                     e1.printStackTrace();
                 }
                 e.printStackTrace();
-            }
-            catch (BrokenBarrierException e) {
+            } catch (BrokenBarrierException e) {
                 e.printStackTrace();
-            }
-            catch (SerialPortException e) {
+            } catch (SerialPortException e) {
                 e.printStackTrace();
             }
         }
@@ -227,14 +233,12 @@ public class JsscManagement{
                             e.printStackTrace();
                         }
                     }
-                }
-                else{
+                } else {
                     System.out.println("broken array");
                 }
             } catch (SerialPortException ex) {
                 ex.printStackTrace();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (BrokenBarrierException e) {
                 e.printStackTrace();

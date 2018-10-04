@@ -15,9 +15,10 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 @Service
 @EnableAsync
-public class ByteParse{
+public class ByteParse {
 
     @Autowired
     Upload upload;
@@ -27,29 +28,28 @@ public class ByteParse{
     public ByteParse() {
     }
 
-  //  @PostConstruct
+    //@PostConstruct
     @Async
-    public void run() {
+    public void run(String device) {
         Thread.currentThread().setName("rawDataParse");
 
-        while (true){
-        synchronized (list) {
-            if (list.size() > 0)
-                list.forEach(x->{
-                    ByteParse.parse(x);
-                });
-            list.clear();
+        while (true) {
+            synchronized (list) {
+                if (list.size() > 0)
+                    list.forEach(x -> ByteParse.parse(x, device));
+                list.clear();
+            }
+            try {
+                Thread.currentThread().sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            Thread.currentThread().sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
     }
 
-}
-
-    private static void parse(StringBuffer buffer) {
+    private static void parse(StringBuffer buffer, String device) {
+        Short channel;
         StringBuilder sb = new StringBuilder();
         for (int i = 21; i < buffer.length() - 2; i = i + 2) {
             sb.append(buffer.charAt(i));
@@ -62,14 +62,16 @@ public class ByteParse{
                 System.out.println("phase   " + sb.substring(i, i + 8) + "||" + new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).divide(new BigDecimal("99900000"), 20, RoundingMode.HALF_UP).toString());
                 System.out.println("date    " + sb.substring(i + 9, i + 17) + "||" + Long.valueOf(sb.substring(i + 9, i + 17), 16));
                 System.out.println("channel " + sb.substring(i + 17, i + 19) + "||" + Integer.valueOf(sb.substring(i + 17, i + 19), 16));
+                channel = Short.valueOf(sb.substring(i + 17, i + 19), 16);
                 synchronized (Upload.list) {
-                    Upload.list.add(
-                            new SendModel("device",
-                                    Short.valueOf(sb.substring(i + 17, i + 19), 16),
-                                    new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).
-                                            divide(new BigDecimal("99900000"), 20, RoundingMode.HALF_UP),
-                                    OffsetDateTime.from(Instant.ofEpochSecond(Long.valueOf(sb.substring(i + 9, i + 17), 16)))
-                                    ));
+                    if (JsscManagement.activeChannels.contains(String.valueOf(channel)))
+                        Upload.list.add(
+                                new SendModel("device",
+                                        Short.valueOf(sb.substring(i + 17, i + 19), 16),
+                                        new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).
+                                                divide(new BigDecimal("99900000"), 20, RoundingMode.HALF_UP),
+                                        OffsetDateTime.from(Instant.ofEpochSecond(Long.valueOf(sb.substring(i + 9, i + 17), 16)))
+                                ));
                 }
             }
 
