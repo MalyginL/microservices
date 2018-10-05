@@ -3,6 +3,8 @@ package project.jssc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import project.db.Upload;
 import project.db.model.SendModel;
@@ -10,14 +12,14 @@ import project.db.model.SendModel;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
-import java.time.OffsetDateTime;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 @EnableAsync
+@EnableScheduling
 public class ByteParse {
 
     @Autowired
@@ -27,8 +29,6 @@ public class ByteParse {
 
     public ByteParse() {
     }
-
-    //@PostConstruct
     @Async
     public void run(String device) {
         Thread.currentThread().setName("rawDataParse");
@@ -40,7 +40,7 @@ public class ByteParse {
                 list.clear();
             }
             try {
-                Thread.currentThread().sleep(10000);
+                Thread.currentThread().sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -70,8 +70,10 @@ public class ByteParse {
                                         Short.valueOf(sb.substring(i + 17, i + 19), 16),
                                         new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).
                                                 divide(new BigDecimal("99900000"), 20, RoundingMode.HALF_UP),
-                                        OffsetDateTime.from(Instant.ofEpochSecond(Long.valueOf(sb.substring(i + 9, i + 17), 16)))
-                                ));
+                                        OffsetDateTime.of(
+                                                LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.valueOf(sb.substring(i + 9, i + 17))),ZoneOffset.ofHours(3))
+                                                ,ZoneOffset.ofHours(3)))
+                                );
                 }
             }
 

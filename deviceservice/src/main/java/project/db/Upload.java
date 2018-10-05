@@ -2,6 +2,7 @@ package project.db;
 
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,7 +35,7 @@ public class Upload {
                 list.forEach(this::send);
             } else {
                 try {
-                    Thread.currentThread().sleep(1000);
+                    Thread.currentThread().sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

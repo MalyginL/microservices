@@ -179,13 +179,15 @@ public class JsscManagement {
         System.out.println("JSSC started");
         while (serialPort.isOpened()) {
             try {
-                if (queue.size() == 0)
-                    serialPort.writeBytes(CommandList.GETDATA);
+                if (queue.size() == 0){
+                    System.out.println("sending command CommandList.GETDATA");
+                    serialPort.writeBytes(CommandList.GETDATA);}
                 else {
+                    System.out.println("sending custom task");
                     serialPort.writeBytes(queue.poll().getTask());
                 }
                 Thread.currentThread().sleep(900);
-                cyclicBarrier.await();
+                cyclicBarrier.await(1, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 try {
                     e.printStackTrace();
@@ -197,6 +199,8 @@ public class JsscManagement {
             } catch (BrokenBarrierException e) {
                 e.printStackTrace();
             } catch (SerialPortException e) {
+                e.printStackTrace();
+            } catch (TimeoutException e) {
                 e.printStackTrace();
             }
         }
