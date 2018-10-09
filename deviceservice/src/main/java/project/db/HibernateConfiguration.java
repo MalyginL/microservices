@@ -19,6 +19,7 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import project.db.model.SendModel;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -84,6 +85,7 @@ public class HibernateConfiguration {
         properties.put(AvailableSettings.STATEMENT_BATCH_SIZE, env.getRequiredProperty("hibernate.batch.size"));
         properties.put(AvailableSettings.NON_CONTEXTUAL_LOB_CREATION, env.getProperty("hibernate.jdbc.lob.non_contextual_creation"));
         properties.put(AvailableSettings.CURRENT_SESSION_CONTEXT_CLASS, env.getRequiredProperty("hibernate.current_session_context_class"));
+
         return properties;
     }
 

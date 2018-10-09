@@ -2,13 +2,14 @@ package project.db.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "rawdata", schema = "public", catalog = "")
 public class SendModel {
 
-    public SendModel(String device, short channel, BigDecimal rawdata, OffsetDateTime rawtime) {
+    SendModel(){}
+
+    public SendModel(String device, short channel, BigDecimal rawdata, int rawtime) {
         this.device = device;
         this.channel = channel;
         this.rawdata = rawdata;
@@ -19,7 +20,7 @@ public class SendModel {
     private String device;
     private short channel;
     private BigDecimal rawdata;
-    private OffsetDateTime rawtime;
+    private int rawtime;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -53,7 +54,7 @@ public class SendModel {
     }
 
     @Basic
-    @Column(name = "numeric", nullable = false, scale=18)
+    @Column(name = "rawdata", nullable = false, scale=18)
     public BigDecimal getRawdata() {
         return rawdata;
     }
@@ -63,11 +64,11 @@ public class SendModel {
     }
     @Basic
     @Column(name = "rawtime", nullable = false)
-    public OffsetDateTime getRawtime() {
+    public int getRawtime() {
         return rawtime;
     }
 
-    public void setRawtime(OffsetDateTime rawtime) {
+    public void setRawtime(int rawtime) {
         this.rawtime = rawtime;
     }
 }

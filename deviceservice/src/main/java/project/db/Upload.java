@@ -1,9 +1,11 @@
 package project.db;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +19,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Repository
+@Service
 @EnableAsync
-@Transactional
 public class Upload {
 
-    @PersistenceContext
-    EntityManager entityManager;
+  @Autowired
+  SendService service;
 
     public static List<SendModel> list = Collections.synchronizedList(new ArrayList<SendModel>());
 
@@ -32,7 +33,9 @@ public class Upload {
     public void upload() {
         while (true) {
             if (list.size() > 0) {
-                list.forEach(this::send);
+                list.forEach(e->service.send(e));
+                list.clear();
+
             } else {
                 try {
                     Thread.currentThread().sleep(500);
@@ -43,10 +46,6 @@ public class Upload {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void send(SendModel model){
-        entityManager.merge(model);
-        entityManager.detach(model);
-    }
+
 
 }

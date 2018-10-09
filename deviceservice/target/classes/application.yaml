@@ -25,4 +25,4 @@ hibernate:
     lob:
       non_contextual_creation: true
 entitymanager:
-  packagesToScan: settings.db.model
+  packagesToScan: project.db.model
