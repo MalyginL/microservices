@@ -18,7 +18,7 @@ db:
   password: psina228
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
-  show_sql: true
+  show_sql: false
   current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
   batch.size: 50
   jdbc:

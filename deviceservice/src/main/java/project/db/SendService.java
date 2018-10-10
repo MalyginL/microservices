@@ -7,6 +7,7 @@ import project.db.model.SendModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.sql.SQLException;
 
 @Service
 public class SendService {
@@ -16,7 +17,11 @@ public class SendService {
 
     @Transactional
     public void send(SendModel model){
-        System.out.println("SENDED");
-        System.out.println(entityManager.merge(model));
+        try {
+            entityManager.merge(model);
+        }
+        catch (Exception e){
+            System.out.println("non-uniq row");
+        }
     }
 }

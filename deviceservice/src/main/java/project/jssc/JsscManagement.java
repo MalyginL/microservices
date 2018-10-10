@@ -186,7 +186,7 @@ public class JsscManagement {
                     System.out.println("sending custom task");
                     serialPort.writeBytes(queue.poll().getTask());
                 }
-                Thread.currentThread().sleep(900);
+                Thread.currentThread().sleep(600);
                 cyclicBarrier.await(1, TimeUnit.SECONDS);
             } catch (InterruptedException e) {
                 try {
@@ -225,9 +225,7 @@ public class JsscManagement {
                         removeBlankSpace(result);
 
                         if (validateCheckSumm(result)) {
-                            synchronized (ByteParse.list) {
-                                ByteParse.list.add(new StringBuffer(result));
-                            }
+                            ByteParse.queue.add(new StringBuffer(result));
                         }
                         result.setLength(0);
                         buffer.delete(0, buffer.indexOf("1A") + 2);

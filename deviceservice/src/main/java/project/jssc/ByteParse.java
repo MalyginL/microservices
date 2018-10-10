@@ -14,6 +14,7 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
 @EnableAsync
@@ -23,7 +24,9 @@ public class ByteParse {
     @Autowired
     Upload upload;
 
-    public static List<StringBuffer> list = Collections.synchronizedList(new ArrayList<StringBuffer>());
+   // public static List<StringBuffer> list = Collections.synchronizedList(new ArrayList<StringBuffer>());
+    public static ConcurrentLinkedQueue<StringBuffer> queue = new ConcurrentLinkedQueue<>();
+
 
     public ByteParse() {
     }
@@ -31,12 +34,10 @@ public class ByteParse {
     @Async
     public void run(String device) {
         Thread.currentThread().setName("rawDataParse");
-
         while (true) {
-            synchronized (list) {
-                if (list.size() > 0)
-                    list.forEach(x -> ByteParse.parse(x, device));
-                list.clear();
+            while(!queue.isEmpty()){
+                System.out.println(queue.size());
+                ByteParse.parse(queue.poll(),device);
             }
             try {
                 Thread.currentThread().sleep(500);
@@ -54,23 +55,23 @@ public class ByteParse {
             sb.append(buffer.charAt(i));
         }
         sb.reverse();
-        System.out.println(sb);
+      //  System.out.println(sb);
         try {
             for (int i = 0; i < sb.length(); i = i + 21) {
-                System.out.println("---------------");
-                System.out.println("phase   " + sb.substring(i, i + 8) + "||" + new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).divide(new BigDecimal("99900000"), 15, RoundingMode.HALF_UP).toString());
+            //    System.out.println("---------------");
+              //  System.out.println("phase   " + sb.substring(i, i + 8) + "||" + new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).divide(new BigDecimal("99900000"), 15, RoundingMode.HALF_UP).toString());
                 System.out.println("date    " + sb.substring(i + 9, i + 17) + "||" + Long.valueOf(sb.substring(i + 9, i + 17), 16));
-                System.out.println("channel " + sb.substring(i + 17, i + 19) + "||" + Integer.valueOf(sb.substring(i + 17, i + 19), 16));
+            //    System.out.println("channel " + sb.substring(i + 17, i + 19) + "||" + Integer.valueOf(sb.substring(i + 17, i + 19), 16));
                 channel = Short.valueOf(sb.substring(i + 17, i + 19), 16);
-                synchronized (Upload.list) {
+
                     if (JsscManagement.activeChannels.contains(String.valueOf(channel)))
-                        Upload.list.add(
+                        Upload.queue.add(
                                 new SendModel("device",
                                         Short.valueOf(sb.substring(i + 17, i + 19), 16),
                                         new BigDecimal(Long.valueOf(sb.substring(i, i + 8), 16)).
                                                 divide(new BigDecimal("99900000"), 20, RoundingMode.HALF_UP),
                                         Integer.valueOf(sb.substring(i + 9, i + 17),16)));
-                }
+
             }
 
         } catch (IndexOutOfBoundsException ex) {
