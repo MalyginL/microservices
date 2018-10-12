@@ -1,9 +1,9 @@
 package client.hibernate;
 
-import client.hibernate.model.CalcSettingsModel;
 import client.hibernate.model.CalculateModel;
-import client.hibernate.model.DataModel;
+import client.hibernate.model.TaskModel;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -11,9 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
-
-@Repository
+@Service
 @Transactional
 public class HibernateDao {
 
@@ -21,43 +19,29 @@ public class HibernateDao {
     private EntityManager entityManger;
 
 
-    @Transactional(readOnly=true)
-    public CalcSettingsModel getCalcSettingForDeviceAndChannel(String device, String channel) {
-        return entityManger.createQuery("from CalcSettingsModel where calc_device= :device and calc_channel= :channel",CalcSettingsModel.class)
-              .setParameter("device",device).setParameter("channel",channel).getSingleResult();
-    }
 
-    @Transactional(propagation = REQUIRES_NEW)
-    public CalcSettingsModel saveSettings(CalcSettingsModel item){
-        return entityManger.merge(item);
-    }
+//    @Transactional(readOnly=true)
+//    public TaskModel getStartTime(String device, int channel) {
+//        return entityManger.createQuery("from TaskModel where device= :device and channel= :channel and status=true",TaskModel.class)
+//                .setParameter("device",device).setParameter("channel",channel).getSingleResult();
+//    }
 
     @Transactional(readOnly=true)
-    public List<DataModel> getData() {
-        entityManger.flush();
-        entityManger.clear();
-        return entityManger.createQuery("from DataModel",DataModel.class).getResultList();
+    public TaskModel getStartTime(String device, int channel) {
+        System.out.println("here");
+        return entityManger.createQuery("from TaskModel e where e.id=2",TaskModel.class)
+                .getSingleResult();
     }
 
     @Transactional(readOnly=true)
-    public List<DataModel> getDataFromTime(String time1,String time2,int channel, String device) {
-        entityManger.flush();
-        entityManger.clear();
-        return entityManger.createQuery("from DataModel e where (e.time>=:start and e.time<:endo and e.device=:device)",DataModel.class)
+    public List<CalculateModel> getDataFromTime(int time1,short channel, String device) {
+        return entityManger.createQuery("from CalculateModel e where (e.calc_time>:start  and e.device=:device and channel=:channel and e.curr_var_rel_freq_diff IS NOT NULL)",CalculateModel.class)
                 .setParameter("start",time1)
-                .setParameter("endo",time2)
-                .setParameter("device",Integer.valueOf(device)).getResultList();
+                .setParameter("device",device)
+                .setParameter("channel",channel)
+                .getResultList();
     }
 
-    @Transactional(propagation=REQUIRES_NEW)
-    public void updateCalculaton(CalculateModel list){
-        entityManger.merge(list);
-    }
-
-    @Transactional(propagation=REQUIRES_NEW)
-    public void save(DataModel model){
-        entityManger.merge(model);
-    }
 
 
 

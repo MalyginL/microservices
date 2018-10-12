@@ -12,14 +12,17 @@ eureka:
   healthcheck:
     enabled: true
 db:
-  driver: com.mysql.jdbc.Driver
-  url: jdbc:mysql://192.168.101.168:3306/Etalon
-  username: users
-  password: password
+  driver: org.postgresql.Driver
+  url: jdbc:postgresql://192.168.101.58:5432/Production
+  username: slonik
+  password: psina228
 hibernate:
-  dialect: org.hibernate.dialect.MySQL5Dialect
-  show_sql: true
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: false
   current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
-  batch.size: 20
+  batch.size: 50
+  jdbc:
+    lob:
+      non_contextual_creation: true
 entitymanager:
   packagesToScan: client.hibernate.model

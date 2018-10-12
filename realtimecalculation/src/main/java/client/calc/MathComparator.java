@@ -1,9 +1,11 @@
 package client.calc;
 
 import client.hibernate.model.CalculateModel;
+import org.springframework.cglib.beans.BeanGenerator;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
@@ -48,54 +50,51 @@ public class MathComparator {
         return sqrt.setScale(scale, RoundingMode.FLOOR);
     }
 
-    public static BigDecimal calcPhase_diff(String phase, String k) {
-        BigDecimal result = (new BigDecimal(phase).divide(new BigDecimal(k))).setScale(40, RoundingMode.CEILING);
-        return result;
+   public static BigDecimal calc2Skdo(int n, BigDecimal sqrSumm){
+
+        return sqrt(sqrSumm.
+                divide((new BigDecimal(2).
+                        multiply(
+                                new BigDecimal(n).subtract(new BigDecimal(1))
+                        )
+                ),20,RoundingMode.HALF_UP),MathContext.UNLIMITED);
+   }
+
+    public static BigDecimal calcSkdo(int n, BigDecimal sqrSumm){
+
+        return bigSqrt(sqrSumm.
+                divide((new BigDecimal(2).
+                        multiply(
+                                new BigDecimal(n).subtract(new BigDecimal(1))
+                        )
+                ),20,RoundingMode.HALF_UP));
     }
 
-    public static BigDecimal calcRelFreq_diff(String phaseCurr_diff, String phaseNext_diff, String tau_time) {
-        BigDecimal result = (new BigDecimal(phaseNext_diff)
-                .subtract
-                        (new BigDecimal(phaseCurr_diff)))
-                .divide
-                        (new BigDecimal(tau_time), BigDecimal.ROUND_HALF_UP)
-                .setScale(40, RoundingMode.CEILING);
-        return result;
-    }
 
-    public static BigDecimal calcCurrVarRelFreq_diff(String curr, String next) {
-        try {
-            BigDecimal result = (new BigDecimal(next).subtract(new BigDecimal(curr)).setScale(40, RoundingMode.CEILING));
-            return result;
-        } catch (NumberFormatException ex) {
-            return null;
+    private static final BigDecimal SQRT_DIG = new BigDecimal(20);
+    private static final BigDecimal SQRT_PRE = new BigDecimal(10).pow(SQRT_DIG.intValue());
+
+
+
+    private static BigDecimal sqrtNewtonRaphson  (BigDecimal c, BigDecimal xn, BigDecimal precision){
+        BigDecimal fx = xn.pow(2).add(c.negate());
+        BigDecimal fpx = xn.multiply(new BigDecimal(2));
+        BigDecimal xn1 = fx.divide(fpx,2*SQRT_DIG.intValue(),RoundingMode.HALF_DOWN);
+        xn1 = xn.add(xn1.negate());
+        BigDecimal currentSquare = xn1.pow(2);
+        BigDecimal currentPrecision = currentSquare.subtract(c);
+        currentPrecision = currentPrecision.abs();
+        if (currentPrecision.compareTo(precision) <= -1){
+            return xn1;
         }
+        return sqrtNewtonRaphson(c, xn1, precision);
     }
 
-    public static BigDecimal skdo(List<CalculateModel> list, int period, boolean usage) throws NullPointerException {
-        BigDecimal k;
-        if (usage) {
-            k = sqrtBabylon(new BigDecimal("2"), 70);
-        } else {
-            k = new BigDecimal("1");
-        }
-
-        BigDecimal summ = new BigDecimal("0");
-        BigDecimal skdo;
-        BigDecimal temp = new BigDecimal("0");
-        for (CalculateModel item : list) {
-            if (!temp.toString().equals("0")) {
-                summ = summ.add(((new BigDecimal(item.getCurr_var_rel_freq_diff()).subtract(temp))).pow(2, MathContext.UNLIMITED));
-            }
-            temp = new BigDecimal(item.getCurr_var_rel_freq_diff());
-        }
-        System.out.println("summ1" + summ);
-        summ = summ.divide(new BigDecimal(String.valueOf(list.size() - 1)).multiply(new BigDecimal("2")).multiply(k), 100, RoundingMode.CEILING);
-        System.out.println("summ skdo" + summ);
-
-        skdo = sqrtBabylon(summ, 70);
-        return skdo;
+    public static BigDecimal bigSqrt(BigDecimal c){
+        return sqrtNewtonRaphson(c,new BigDecimal(1),new BigDecimal(1).divide(SQRT_PRE));
     }
+
+
 
 
 

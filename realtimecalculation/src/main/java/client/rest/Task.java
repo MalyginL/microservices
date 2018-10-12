@@ -1,84 +1,100 @@
 package client.rest;
 
 import client.calc.MathComparator;
+import client.hazelcast.Hazelclient;
 import client.hibernate.HibernateDao;
-import client.hibernate.model.CalcSettingsModel;
 import client.hibernate.model.CalculateModel;
-import client.hibernate.model.DataModel;
+import client.hibernate.model.TaskModel;
+import client.rest.model.SkdoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
+@Component
+public class Task {
 
-public class Task implements Runnable {
-
-    private String device;
-    private String channel;
+    TaskModel taskModel;
+    static final int range = 10000;
+    ConcurrentHashMap<String, SkdoModel> temp = new ConcurrentHashMap<>();
 
     @Autowired
     HibernateDao hib;
 
-   public Task(String device, String channel){
-       this.device=device;
-       this.channel=channel;
-   }
-    @Override
-    public void run() {
-        CalcSettingsModel settings = hib.getCalcSettingForDeviceAndChannel(device, channel);
-
-        List<DataModel> list = hib.getDataFromTime(settings.getCalc_time(), "9999999999", Integer.valueOf(channel), device);
-
-        List<CalculateModel> calculateModel = new ArrayList<>();
-        for (DataModel item : list) {
+    @Autowired
+    Hazelclient hazelclient;
 
 
+    public void run(String device, int channel) {
 
-            CalculateModel model = new CalculateModel();
-            model.setChannel(2);
-            model.setDevice(String.valueOf(item.getDevice()));
-            model.setTime(item.getTime());
-            model.setPhase_diff(MathComparator.calcPhase_diff(item.getRawData(), "1000000").toString());
-            calculateModel.add(model);
+            taskModel = hib.getStartTime(device, channel);
+            System.out.println(Integer.valueOf(channel).shortValue());
+            int time = taskModel.getStarttime();
+            int period = taskModel.getPeriod();
+            BigDecimal summ;
+            int n = 1;
+
+            init(period);
+
+            int multy = period * 10;
+
+            while (true) {
+
+                List<CalculateModel> list = hib.getDataFromTime(time, Integer.valueOf(channel).shortValue(), device);
+               // System.out.println(list.size());
+                for (CalculateModel model : list) {
+
+                    SkdoModel rawmodel = temp.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period);
+
+                    summ = rawmodel.getSumm()
+                            .add((model.getCurr_var_rel_freq_diff()).pow(2));
+                    rawmodel.setSumm(summ);
+                  //  System.out.println(summ);
+                    try {
 
 
+                    hazelclient.put(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period, MathComparator.calcSkdo(n, summ));
+                    System.out.println(hazelclient.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period));}
+                    catch (ArithmeticException ex){ex.printStackTrace();}
+                    while (multy < range) {
+                        SkdoModel skdomodel = temp.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + multy);
+
+                        if (n % multy == 0) {
+                            try {
+                                summ = skdomodel.getSumm().add((skdomodel.getTemp().divide(new BigDecimal(multy))).pow(2));
+                                skdomodel.setSumm(summ);
+                            } catch (NullPointerException ex){
+                                ex.printStackTrace();
+                            }
 
 
-        }
+                            hazelclient.put(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + multy, MathComparator.calcSkdo(n, summ));
 
-        settings.setCalc_time(list.get(list.size() - 2).getTime());
-        CalculateModel bufferForPhaseDiff = calculateModel.get(0);
-
-        for (CalculateModel item : calculateModel.subList(1, calculateModel.size())) {
-            bufferForPhaseDiff.setRel_freq_diff(MathComparator.calcRelFreq_diff(
-                    bufferForPhaseDiff.getPhase_diff(),
-                    item.getPhase_diff(),
-                    "1").toString());
-            bufferForPhaseDiff = item;
-        }
-        CalculateModel bufferForRelFreqDiff = calculateModel.get(1);
-
-        for (CalculateModel item : calculateModel.subList(2, calculateModel.size())) {
-            System.out.println("---------------------"+item.getRel_freq_diff());
-            try {
-                bufferForRelFreqDiff.setCurr_var_rel_freq_diff(
-                        MathComparator.calcCurrVarRelFreq_diff(
-                                bufferForRelFreqDiff.getRel_freq_diff(),
-                                item.getRel_freq_diff()
-                        ).toString());
+                        } else {
+                          BigDecimal temp = skdomodel.getTemp();
+                            skdomodel.setTemp(temp.
+                                    add(model.getCurr_var_rel_freq_diff()));
+                        }
+                        multy = multy * 10;
+                    }
+                    n++;
+                    multy = period * 10;
+                    time = model.getCalc_time();
+                }
             }
-            catch(Exception ex){
-                ex.printStackTrace();
-            }
-            bufferForRelFreqDiff = item;
+    }
+
+
+    public void init(int period) {
+        while (period < range) {
+            System.out.println("added "+taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period);
+            temp.put(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period, new SkdoModel(new BigDecimal(0), new BigDecimal(0)));
+            period=period*10;
         }
-
-        calculateModel.forEach(e->hib.updateCalculaton(e));
-        settings.setCalc_time(calculateModel.get(calculateModel.size() - 1).getTime());
-        hib.saveSettings(settings);
-        System.out.println("DONE!");
-
     }
 
 }

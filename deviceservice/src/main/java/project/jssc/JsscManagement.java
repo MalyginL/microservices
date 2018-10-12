@@ -174,7 +174,6 @@ public class JsscManagement {
 
     @Async
     public void run() {
-
         Thread.currentThread().setName("JSSC");
         System.out.println("JSSC started");
         while (serialPort.isOpened()) {
@@ -206,7 +205,6 @@ public class JsscManagement {
         }
 
     }
-
 
     private class PortReader implements SerialPortEventListener {
 

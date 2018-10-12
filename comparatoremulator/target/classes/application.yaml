@@ -1,8 +1,8 @@
 spring:
   application:
-    name: real-time-calculation
+    name: emulator-server
 server:
-  port: 8777
+  port: 9999
 eureka:
   client:
      service-url:
@@ -18,11 +18,11 @@ db:
   password: psina228
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
-  show_sql: false
+  show_sql: true
   current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
-  batch.size: 50
+  batch.size: 1
   jdbc:
     lob:
       non_contextual_creation: true
 entitymanager:
-  packagesToScan: client.hibernate.model
+  packagesToScan: project.database.model
