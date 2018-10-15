@@ -3,6 +3,7 @@ package client.cache;
 import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IMap;
 import com.hazelcast.core.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -13,14 +14,16 @@ import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
+@Repository
 @Configuration
-@EnableCaching
 public class HazelcastConfig {
-
 
     @Bean
     @Order(10)
@@ -36,17 +39,12 @@ public class HazelcastConfig {
         return config;
     }
 
-    @Bean
+    @Bean(name = "instance")
     @Order(-10)
-    public HazelcastInstance hazelcastInstance(){
+    public IMap hazelcastInstance(){
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance();
-        Map<String, String> map = hazelcastInstance.getMap("data");
-        IdGenerator idGenerator = hazelcastInstance.getIdGenerator("newid");
-        for (int i = 0; i < 10; i++) {
-            map.put(String.valueOf(i+"asdasdasda"), "message" + 2);
-        }
-
-        return hazelcastInstance;
+        IMap<String,BigDecimal> map = hazelcastInstance.getMap("data");
+        return map;
     }
 
 

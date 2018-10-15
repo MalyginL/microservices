@@ -32,7 +32,6 @@ public class Task {
     public void run(String device, int channel) {
 
             taskModel = hib.getStartTime(device, channel);
-            System.out.println(Integer.valueOf(channel).shortValue());
             int time = taskModel.getStarttime();
             int period = taskModel.getPeriod();
             BigDecimal summ;
@@ -45,7 +44,6 @@ public class Task {
             while (true) {
 
                 List<CalculateModel> list = hib.getDataFromTime(time, Integer.valueOf(channel).shortValue(), device);
-               // System.out.println(list.size());
                 for (CalculateModel model : list) {
 
                     SkdoModel rawmodel = temp.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period);
@@ -53,12 +51,11 @@ public class Task {
                     summ = rawmodel.getSumm()
                             .add((model.getCurr_var_rel_freq_diff()).pow(2));
                     rawmodel.setSumm(summ);
-                  //  System.out.println(summ);
                     try {
 
 
                     hazelclient.put(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period, MathComparator.calcSkdo(n, summ));
-                    System.out.println(hazelclient.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + period));}
+                        }
                     catch (ArithmeticException ex){ex.printStackTrace();}
                     while (multy < range) {
                         SkdoModel skdomodel = temp.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + multy);
@@ -67,6 +64,7 @@ public class Task {
                             try {
                                 summ = skdomodel.getSumm().add((skdomodel.getTemp().divide(new BigDecimal(multy))).pow(2));
                                 skdomodel.setSumm(summ);
+                                System.out.println(hazelclient.get(taskModel.getDevice() + "_" + taskModel.getChannel() + "_" + multy));
                             } catch (NullPointerException ex){
                                 ex.printStackTrace();
                             }
