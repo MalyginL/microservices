@@ -18,11 +18,11 @@ public class Upload {
   @Autowired
   SendService service;
 
-  int time=	(int )System.currentTimeMillis()/1000;
+  int time=	(int)(System.currentTimeMillis()/1000);
     @Async
    @Scheduled(fixedDelay=1000)
     public void upload() {
-
+        System.out.println(time);
      service.send(new SendModel("test",Short.valueOf("1"),new BigDecimal(Math.random()),time++));
     }
 }
