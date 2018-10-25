@@ -6,3 +6,7 @@ eureka:
     fetch-Registry: false
   server:
     enableSelfPreservation: true
+logging:
+  level:
+   root: INFO
+  file: /var/eureka-server.log

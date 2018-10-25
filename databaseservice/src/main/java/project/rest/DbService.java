@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import project.hibernate.CalcDao;
 import project.hibernate.model.CalculateModel;
+import project.hibernate.model.TasksModel;
 import project.rest.model.RequestModel;
 
 import java.util.Collection;
@@ -19,6 +20,10 @@ public class DbService {
 
     public List<CalculateModel> getData(RequestModel model) {
         return dao.findAllWithPeriod(model.getStartTime(), model.getEndTime(), model.getChannel(), model.getDevice());
+    }
+
+    public List<TasksModel> getCompletedTasks(){
+        return dao.getCurrentTasks();
     }
 
 }

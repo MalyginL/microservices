@@ -1,0 +1,8 @@
+project\rest\DbController.class
+project\hibernate\CalcDao.class
+project\rest\DbService.class
+project\hibernate\model\TasksModel.class
+project\DataBase.class
+project\rest\model\RequestModel.class
+project\hibernate\HibernateConfiguration.class
+project\hibernate\model\CalculateModel.class

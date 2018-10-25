@@ -257,3 +257,4 @@ zuulserver/target/classes/application.properties
 zuulserver/target/zuul-server-1.0-SNAPSHOT.jar.original
 zuulserver/target/classes/application.properties
 comparatoremulator/comparatoremulator.iml
+*.iml
