@@ -26,4 +26,8 @@ public class DbService {
         return dao.getCurrentTasks();
     }
 
+
+    public void deleteTask(long id){
+       dao.deleteById(id);
+    }
 }

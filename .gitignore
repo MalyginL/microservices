@@ -258,3 +258,7 @@ zuulserver/target/zuul-server-1.0-SNAPSHOT.jar.original
 zuulserver/target/classes/application.properties
 comparatoremulator/comparatoremulator.iml
 *.iml
+databaseservice/databaseservice.iml
+eurekaconfigserver/eurekaconfigserver.iml
+*.xml
+eurekaconfigserver/eurekaconfigserver.iml

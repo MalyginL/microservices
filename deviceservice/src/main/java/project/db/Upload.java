@@ -23,7 +23,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
 @EnableAsync
-public class Upload {
+public class
+Upload {
 
   @Autowired
   SendService service;

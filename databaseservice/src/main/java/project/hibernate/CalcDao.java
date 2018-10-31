@@ -27,4 +27,7 @@ public class CalcDao {
         return entityManger.createQuery("from TasksModel where status = true",TasksModel.class).getResultList();
     }
 
+    public void deleteById(long id) {
+        entityManger.createQuery("DELETE FROM TasksModel WHERE id=:id").setParameter("id",id);
+    }
 }
