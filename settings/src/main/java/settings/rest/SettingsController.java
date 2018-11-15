@@ -2,6 +2,7 @@ package settings.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import settings.db.model.DeviceModel;
 import settings.db.model.SettingsModel;
 
 import java.util.List;
@@ -27,10 +28,14 @@ public class SettingsController {
         return "success";
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.POST)
-    public void register(@RequestBody SettingsModel model){
+    @RequestMapping(value="/registercom", method = RequestMethod.POST)
+    public void registercom(@RequestBody SettingsModel model){
         service.register(model.getComport(), model.getDevice());
     }
 
+    @RequestMapping(value="/registerdevice", method = RequestMethod.POST)
+    public void registerdevice(@RequestBody DeviceModel model){
+        service.register(model.getComport(), model.getDevice());
+    }
 
 }

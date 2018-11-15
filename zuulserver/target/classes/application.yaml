@@ -2,7 +2,7 @@ server:
   port: 8762
 spring:
   application:
-    name: VCH-server
+    name: ZUUL-server
 eureka:
   instance:
     preferIpAddress: true
@@ -10,7 +10,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
   serviceurl:
-    defaultzone: http://localhost:8761/eureka/
+    defaultzone: http://192.168.101.98:8761/eureka/
 management:
   endpoints:
     web:
@@ -20,3 +20,5 @@ logging:
   level:
    root: INFO
   file: /var/zuul-server.log
+zuul:
+  ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin

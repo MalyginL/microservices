@@ -1,12 +1,12 @@
 spring:
   application:
-    name: device-service
+    name: vch-service
 server:
   port: 8180
 eureka:
   client:
      service-url:
-          defaultZone: "http://192.168.101.74:8761/eureka/"
+          defaultZone: "http://192.168.101.98:8761/eureka/"
   instance:
     preferIpAddress: true
   healthcheck:
@@ -18,7 +18,7 @@ db:
   password: psina228
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
-  show_sql: false
+  show_sql: true
   current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
   batch.size: 50
   jdbc:

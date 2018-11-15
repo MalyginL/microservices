@@ -35,7 +35,7 @@ Upload {
     @Async
    // @PostConstruct
     public void upload() {
-
+        Thread.currentThread().setName("upload");
         while (true) {
             try {
                 while (!queue.isEmpty()) {

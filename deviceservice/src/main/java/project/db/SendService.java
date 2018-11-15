@@ -3,6 +3,7 @@ package project.db;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.db.model.DeviceModel;
 import project.db.model.SendModel;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import java.sql.SQLException;
 
 @Service
+@Transactional
 public class SendService {
 
     @PersistenceContext
@@ -23,5 +25,10 @@ public class SendService {
         catch (Exception e){
             System.out.println("non-uniq row");
         }
+    }
+    @Transactional
+    public void saveDevice(DeviceModel model){
+        System.out.println("SAVED");
+        entityManager.merge(model);
     }
 }

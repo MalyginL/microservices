@@ -25,4 +25,7 @@ public class SettingsService {
         dao.register(com, device);
     }
 
+    public void register(){
+
+    }
 }

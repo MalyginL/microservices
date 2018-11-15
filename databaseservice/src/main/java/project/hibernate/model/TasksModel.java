@@ -14,6 +14,18 @@ public class TasksModel {
     private int starttime;
 
 
+    public TasksModel(String device, short channel, int period, boolean status, int starttime) {
+        this.device = device;
+        this.channel = channel;
+        this.period = period;
+        this.status = status;
+        this.starttime = starttime;
+
+    }
+
+    public TasksModel() {
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

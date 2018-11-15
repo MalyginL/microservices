@@ -34,7 +34,7 @@ public class JsscManagement {
     }
 
 
-    public boolean configure(String portName) {
+    public void configure() {
         if (cyclicBarrier.getNumberWaiting() == 1) {
             try {
                 cyclicBarrier.await();
@@ -44,12 +44,7 @@ public class JsscManagement {
                 e.printStackTrace();
             }
         }
-        if (connect(portName)) {
             run();
-            return true;
-        }
-        return false;
-
     }
 
 
