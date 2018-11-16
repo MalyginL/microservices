@@ -48,5 +48,9 @@ public class DbController {
         return  new ResponseEntity<>(service.addTask(model),HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/getTask/{device}/{channel}", method = RequestMethod.GET)
+    public ResponseEntity<Collection<Integer>> startTask(@PathVariable String device,@PathVariable String channel){
+        return  new ResponseEntity<>(service.getTasks(device,channel),HttpStatus.OK);
+    }
 
 }

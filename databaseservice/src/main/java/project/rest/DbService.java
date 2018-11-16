@@ -61,8 +61,12 @@ public class DbService {
         //if(respons.getBody()){
         //FIX THIS!!!!!!
             dao.addTask(model.getDevice(),(short)model.getChannel(),model.getPeriod());
+            dao.updateChannel(model.getDevice(),(short)model.getChannel(),(short) 0);
     //    }
         return true;
     }
 
+    public List<Integer> getTasks(String device, String channel) {
+        return dao.getTaskByDeviceAndChannel(device,channel);
+    }
 }

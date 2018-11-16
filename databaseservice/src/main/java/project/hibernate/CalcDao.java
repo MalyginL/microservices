@@ -55,4 +55,18 @@ public class CalcDao {
 //                .setParameter("time", (int)(System.currentTimeMillis()/1000));
 
     }
+
+    public void updateChannel(String device, short channel,short status){
+        entityManger.createQuery("update Devicemodel m set m.status = :status where m.device = :device and m.channel =:channel")
+                .setParameter("device",device)
+                .setParameter("channel",channel)
+                .setParameter("status",status);
+    }
+
+    public List<Integer> getTaskByDeviceAndChannel(String device, String channel) {
+        return entityManger.createQuery("select s.starttime from TasksModel s where s.device=:device and channel=:channel")
+                .setParameter("device",device)
+                .setParameter("channel",Short.valueOf(channel))
+                .getResultList();
+    }
 }
