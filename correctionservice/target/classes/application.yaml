@@ -2,7 +2,7 @@ spring:
   application:
     name: correction-server
 server:
-  port: 9978
+  port: 7778
 eureka:
   client:
      service-url:

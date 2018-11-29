@@ -21,6 +21,9 @@ public class ZuulConfig {
     public static void main(String[] args) {
         SpringApplication.run(ZuulConfig.class, args);
     }
+
+
+
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
