@@ -26,3 +26,11 @@ hibernate:
       non_contextual_creation: true
 entitymanager:
   packagesToScan: correctionservice.database.model
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 60000

@@ -28,7 +28,12 @@ public class Dao {
         storedProcedure.execute();
         List<Object> list = storedProcedure.getResultList();
 
-                list.forEach(e -> resultMap.put((BigDecimal)Array.get(e, 1), new BigDecimal(Array.get(e, 0).toString())));
+                list.forEach(e -> {try {
+            resultMap.put((BigDecimal) Array.get(e, 1), new BigDecimal(Array.get(e, 0).toString()));
+        }catch (NullPointerException ex) {
+                }
+
+        });
         for (HashMap.Entry entry : resultMap.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());
         }

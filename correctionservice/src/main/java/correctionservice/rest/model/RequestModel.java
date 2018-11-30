@@ -3,7 +3,7 @@ package correctionservice.rest.model;
 public class RequestModel {
 
    private String deviceName;
-   private String channels;
+   private Integer[] channels;
    private String period;
    private String time;
 
@@ -15,11 +15,11 @@ public class RequestModel {
         this.deviceName = deviceName;
     }
 
-    public String getChannels() {
+    public Integer[] getChannels() {
         return channels;
     }
 
-    public void setChannels(String channels) {
+    public void setChannels(Integer[] channels) {
         this.channels = channels;
     }
 

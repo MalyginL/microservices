@@ -22,3 +22,11 @@ logging:
   file: /var/zuul-server.log
 zuul:
   ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 60000
