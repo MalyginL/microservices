@@ -265,3 +265,5 @@ eurekaconfigserver/eurekaconfigserver.iml
 eurekaconfigserver/eurekaconfigserver.iml
 correctionservice/correctionservice.iml
 zuulserver/zuulserver.iml
+externalcomparsions/target/classes/application.yaml
+correctionservice/correctionservice.iml

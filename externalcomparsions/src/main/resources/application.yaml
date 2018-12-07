@@ -1,0 +1,7 @@
+ftp:
+  url: ftp.vniiftri.ru
+  remotedirectory: Atomic_Time/SU/links/GNSS/UTC(SU)-GNSS/CGGTTS/
+  localdirectory: ftp
+  login: anonymous
+  password: anonymous
+  port: 21
