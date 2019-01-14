@@ -1,6 +1,8 @@
 package project.rest;
 
 import org.apache.commons.net.ftp.FTPFile;
+import org.joda.time.DateTimeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +17,15 @@ import org.springframework.integration.ftp.inbound.FtpInboundFileSynchronizer;
 import org.springframework.integration.ftp.inbound.FtpInboundFileSynchronizingMessageSource;
 import org.springframework.integration.ftp.session.DefaultFtpSessionFactory;
 import org.springframework.messaging.MessageHandler;
+import project.file.ExtFile;
 
 import java.io.File;
 
 @Configuration
-public class FtpConfig {
+public class FtpConfig{
+
+    @Autowired
+    ExtFile extFile;
 
     @Value("${ftp.url}")
     private String url;
@@ -72,7 +78,20 @@ public class FtpConfig {
     @Bean
     @ServiceActivator(inputChannel = "ftpChannel")
     public MessageHandler handler() {
-        return message -> System.out.println(message.getPayload());
+        return message -> {
+            System.out.println(message);
+//            double jday=((DateTimeUtils.toJulianDayNumber(System.currentTimeMillis()))-2400002D)/1000D;
+//            System.out.println("\\\\192.168.101.141\\6rrt\\BIPM\\6RRT"+ (int)(jday*1000D)+".dat");
+//            System.out.println(new File("\\\\192.168.101.141\\6rrt\\BIPM\\6RRT"+ (int)(jday*1000D)+".dat").exists());
+//            System.out.println("ftp\\GMSU19"+jday);
+//            System.out.println(new File("ftp\\GMSU19"+jday).exists());
+//            if ((message.getPayload().toString().contains(String.valueOf(jday))) && (new File("\\\\192.168.101.141\\6rrt\\BIPM\\6RRT"+ (int)(jday*1000D)+".dat").exists())){
+//                System.out.println(
+//                extFile.mnc(extFile.findCrossing(extFile.parse(new File(localdirectory +"6RRT"+ (int)(jday*1000D)+".dat")),extFile.parse(new File(message.getPayload().toString()))))
+//                );
+//            }
+        };
+
     }
 
 }

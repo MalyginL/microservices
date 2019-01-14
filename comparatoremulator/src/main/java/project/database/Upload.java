@@ -23,6 +23,6 @@ public class Upload {
    @Scheduled(fixedDelay=1000)
     public void upload() {
         System.out.println(time);
-     service.send(new SendModel("test",Short.valueOf("1"),new BigDecimal(Math.random()),time++));
+        service.send(new SendModel(1,new BigDecimal(Math.random()),time++));
     }
 }

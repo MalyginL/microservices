@@ -9,6 +9,7 @@ import project.hibernate.model.DeviceModel;
 import project.hibernate.model.TasksModel;
 import project.rest.model.NewTaskModel;
 import project.rest.model.RequestModel;
+import project.rest.model.TimeModel;
 
 import java.util.Collection;
 
@@ -22,6 +23,11 @@ public class DbController {
     @RequestMapping("/getdata")
     public ResponseEntity<Collection<CalculateModel>> getData(@RequestBody RequestModel model) {
         return new ResponseEntity<>(service.getData(model), HttpStatus.OK);
+    }
+
+    @RequestMapping("/typidor")
+    public ResponseEntity<String> te() {
+        return new ResponseEntity("sosi", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getcurrenttasks")
@@ -51,6 +57,11 @@ public class DbController {
     @RequestMapping(value = "/getTask/{device}/{channel}", method = RequestMethod.GET)
     public ResponseEntity<Collection<Integer>> startTask(@PathVariable String device,@PathVariable String channel){
         return  new ResponseEntity<>(service.getTasks(device,channel),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/test/{deviceid}/{starttime}/{endtime}", method = RequestMethod.GET)
+    public ResponseEntity<Collection<TimeModel>> startTask(@PathVariable int deviceid, @PathVariable int starttime, @PathVariable int endtime){
+        return  new ResponseEntity<>(service.getResult(deviceid,starttime,endtime),HttpStatus.OK);
     }
 
 }

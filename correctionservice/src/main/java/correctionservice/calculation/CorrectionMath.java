@@ -56,12 +56,18 @@ public class CorrectionMath {
             temp = item.getValue();
         }
         System.out.println("summ1" + summ);
+
+
+
         summ = summ.divide(new BigDecimal(String.valueOf(map.size() - 1)).multiply(new BigDecimal("2")), 100, RoundingMode.CEILING);
         System.out.println("summ skdo" + summ);
 
         skdo = sqrtBabylon(summ, 70);
         return skdo;
     }
+
+
+
 
     public static BigDecimal sqrtBabylon(BigDecimal in, int scale) {
         BigDecimal sqrt = new BigDecimal(1);

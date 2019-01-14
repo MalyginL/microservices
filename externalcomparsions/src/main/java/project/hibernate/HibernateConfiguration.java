@@ -6,7 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.cfg.AvailableSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -67,7 +66,7 @@ public class HibernateConfiguration {
         dataSource.setJdbcUrl(env.getRequiredProperty("db.url"));
         dataSource.setUsername(env.getRequiredProperty("db.username"));
         dataSource.setPassword(env.getRequiredProperty("db.password"));
-        dataSource.setMaximumPoolSize(10);
+        dataSource.setMaximumPoolSize(1);
         dataSource.setPoolName("Hikari");
         dataSource.addDataSourceProperty("dataSource.cachePrepStmts", "true");
         dataSource.addDataSourceProperty("dataSource.prepStmtCacheSize", "250");

@@ -12,6 +12,7 @@ import project.hibernate.model.DeviceModel;
 import project.hibernate.model.TasksModel;
 import project.rest.model.NewTaskModel;
 import project.rest.model.RequestModel;
+import project.rest.model.TimeModel;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -68,5 +69,9 @@ public class DbService {
 
     public List<Integer> getTasks(String device, String channel) {
         return dao.getTaskByDeviceAndChannel(device,channel);
+    }
+
+    public List<TimeModel> getResult(int deviceid, int starttime, int endtime) {
+        return dao.getParams(deviceid,starttime,endtime);
     }
 }

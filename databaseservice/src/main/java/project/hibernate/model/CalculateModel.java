@@ -4,19 +4,18 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "calculate", schema = "public", catalog = "")
+@Table(name = "calculate", schema = "production", catalog = "")
 public class CalculateModel {
 
 
 
     private long id;
-    private String device;
-    private short channel;
-    private int type;
+    private int deviceid;
     private int calc_time;
     private BigDecimal phase_diff;
     private BigDecimal rel_freq_diff;
-    private BigDecimal curr_var_rel_freq_diff;
+    private BigDecimal cur_var_rel_freq_diff;
+    private int time_type;
 
 
     @Id
@@ -31,32 +30,25 @@ public class CalculateModel {
     }
 
     @Basic
-    @Column(name = "device")
-    public String getDevice() {
-        return device;
+    @Column(name = "deviceid")
+    public int getDeviceid() {
+        return deviceid;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
+    public void setDeviceid(int deviceid) {
+        this.deviceid = deviceid;
     }
+
     @Basic
-    @Column(name = "channel")
-    public short getChannel() {
-        return channel;
+    @Column(name = "time_type")
+    public int getTime_type() {
+        return time_type;
     }
 
-    public void setChannel(short channel) {
-        this.channel = channel;
-    }
-    @Basic
-    @Column(name = "type")
-    public int getType() {
-        return type;
+    public void setTime_type(int time_type) {
+        this.time_type = time_type;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
     @Basic
     @Column(name = "calc_time")
     public int getCalc_time() {
@@ -86,11 +78,11 @@ public class CalculateModel {
     }
     @Basic
     @Column(name = "cur_var_rel_freq_diff")
-    public BigDecimal getCurr_var_rel_freq_diff() {
-        return curr_var_rel_freq_diff;
+    public BigDecimal getCur_var_rel_freq_diff() {
+        return cur_var_rel_freq_diff;
     }
 
-    public void setCurr_var_rel_freq_diff(BigDecimal curr_var_rel_freq_diff) {
-        this.curr_var_rel_freq_diff = curr_var_rel_freq_diff;
+    public void setCur_var_rel_freq_diff(BigDecimal cur_var_rel_freq_diff) {
+        this.cur_var_rel_freq_diff = cur_var_rel_freq_diff;
     }
 }
