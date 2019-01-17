@@ -25,11 +25,6 @@ public class DbController {
         return new ResponseEntity<>(service.getData(model), HttpStatus.OK);
     }
 
-    @RequestMapping("/typidor")
-    public ResponseEntity<String> te() {
-        return new ResponseEntity("sosi", HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/getcurrenttasks")
     public ResponseEntity<Collection<TasksModel>> getTasks (){
         return  new ResponseEntity<>(service.getCompletedTasks(),HttpStatus.OK);
@@ -39,6 +34,7 @@ public class DbController {
     public ResponseEntity<Collection<TasksModel>> deleteTask(@PathVariable long id){
         return  new ResponseEntity<>(service.getCompletedTasks(),HttpStatus.OK);
     }
+
     @RequestMapping(value = "/loaddevices", method = RequestMethod.GET)
     public ResponseEntity<Collection<String>> loadDevices(){
         return  new ResponseEntity<>(service.loadDevices(),HttpStatus.OK);
@@ -59,7 +55,7 @@ public class DbController {
         return  new ResponseEntity<>(service.getTasks(device,channel),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/test/{deviceid}/{starttime}/{endtime}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getstat/{deviceid}/{starttime}/{endtime}", method = RequestMethod.GET)
     public ResponseEntity<Collection<TimeModel>> startTask(@PathVariable int deviceid, @PathVariable int starttime, @PathVariable int endtime){
         return  new ResponseEntity<>(service.getResult(deviceid,starttime,endtime),HttpStatus.OK);
     }

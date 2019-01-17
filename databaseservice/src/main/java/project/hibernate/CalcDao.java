@@ -37,7 +37,7 @@ public class CalcDao {
     }
 
     public List<String> getDevices() {
-        return entityManger.createQuery("Select DISTINCT e.device  from DeviceModel e").getResultList();
+        return entityManger.createQuery("Select DISTINCT e.device from DeviceModel e").getResultList();
     }
 
     public List<Short> getChannels(String device) {

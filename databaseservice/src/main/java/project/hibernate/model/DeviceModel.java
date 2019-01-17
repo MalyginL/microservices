@@ -3,27 +3,32 @@ package project.hibernate.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "devicestatus", schema = "public", catalog = "")
+@Table(name = "devicestatus", schema = "production", catalog = "")
+//@SecondaryTables({
+//        @SecondaryTable(name="devicereg",schema = "production", pkJoinColumns={
+//                @PrimaryKeyJoinColumn(name="deviceid", referencedColumnName="deviceid") })
+//})
 public class DeviceModel {
 
     private long id;
-    private String device;
-    private short channel;
-    private short status;
-    private String servicename;
-    private String comport;
+    private int deviceid;
+    private boolean status;
+    private int starttime;
 
     public DeviceModel(){
 
     }
 
-    public DeviceModel(String device, short channel, short status, String servicename, String comport) {
-        this.device = device;
-        this.channel = channel;
+    public DeviceModel(long id, int deviceid, boolean status, int starttime) {
+        this.id = id;
+        this.deviceid = deviceid;
         this.status = status;
-        this.servicename = servicename;
-        this.comport = comport;
+        this.starttime = starttime;
     }
+
+
+
+
 
     @Id
     @Column(name = "id", nullable = false)
@@ -36,53 +41,33 @@ public class DeviceModel {
         this.id = id;
     }
 
+
+
     @Basic
-    @Column(name = "device")
-    public String getDevice() {
-        return device;
+    @Column(name = "deviceid")
+    public int getDeviceid() {
+        return deviceid;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
-    }
-    @Basic
-    @Column(name = "channel")
-    public short getChannel() {
-        return channel;
-    }
-
-    public void setChannel(short channel) {
-        this.channel = channel;
+    public void setDeviceid(int deviceid) {
+        this.deviceid = deviceid;
     }
     @Basic
     @Column(name = "status")
-    public short getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
     @Basic
-    @Column(name = "servicename")
-    public String getServicename() {
-        return servicename;
+    @Column(name = "starttime")
+    public int getStarttime() {
+        return starttime;
     }
 
-    public void setServicename(String servicename) {
-        this.servicename = servicename;
+    public void setStarttime(int starttime) {
+        this.starttime = starttime;
     }
-
-    @Basic
-    @Column(name = "comport")
-    public String getComport() {
-        return comport;
-    }
-
-    public void setComport(String comport) {
-        this.comport = comport;
-    }
-
-
-
 }
