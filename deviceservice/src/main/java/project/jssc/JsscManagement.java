@@ -216,7 +216,6 @@ public class JsscManagement {
                     if (buffer.indexOf("1A") != -1) {
                         result.append(buffer).setLength(buffer.indexOf("1A") + 2);
                         removeBlankSpace(result);
-
                         if (validateCheckSumm(result)) {
                             ByteParse.queue.add(new StringBuffer(result));
                         }
@@ -246,6 +245,7 @@ public class JsscManagement {
             for (int i = 10; i < buffer.length(); i = i + 2) {
                 sum2 += Integer.parseInt(buffer.substring(i, i + 2), 16);
             }
+
             System.out.println("Valid package received?    >>>" + (sum2 == sum1));
             return sum2 == sum1;
         }

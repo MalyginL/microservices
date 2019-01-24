@@ -21,7 +21,7 @@ public class CalcDao {
     @PersistenceContext
     private EntityManager entityManger;
 
-
+    @Deprecated
     public List<CalculateModel> findAllWithPeriod(int startTime, int endTime, short channel, String device) {
         return entityManger.createQuery("Select e from CalculateModel e where e.calc_time Between :startTime and :endTime AND e.device= :device AND e.channel=: channel ORDER BY e.calc_time  ASC", CalculateModel.class)
                 .setParameter("startTime", startTime).setParameter("endTime", endTime).setParameter("device", device).setParameter("channel", channel).getResultList();
@@ -61,10 +61,18 @@ public class CalcDao {
     }
 
     public void updateChannel(String device, short channel, short status) {
-        entityManger.createQuery("update Devicemodel m set m.status = :status where m.device = :device and m.channel =:channel")
+        entityManger.createQuery("update Devicemodel m set m.status = :status where m.device = :device and m.channel =:channel ")
                 .setParameter("device", device)
                 .setParameter("channel", channel)
                 .setParameter("status", status);
+    }
+
+
+    public List<CalculateModel> getData(int deviceid,int starttime, int endtime ){
+        return entityManger.createQuery("Select e from CalculateModel e where e.calc_time Between :starttime and :endtime ORDER BY e.calc_time  ASC")
+                .setParameter("starttime",starttime)
+                .setParameter("endtime",endtime)
+                .getResultList();
     }
 
     public List<Integer> getTaskByDeviceAndChannel(String device, String channel) {
@@ -122,4 +130,8 @@ public class CalcDao {
     }
 
 
+    public int getDeviceid(String device, short channel) {
+        return 1;
+      //  entityManger.createQuery()
+    }
 }

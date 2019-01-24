@@ -26,7 +26,9 @@ public class DbService {
     CalcDao dao;
 
     public List<CalculateModel> getData(RequestModel model) {
-        return dao.findAllWithPeriod(model.getStartTime(), model.getEndTime(), model.getChannel(), model.getDevice());
+        int deviceid = dao.getDeviceid(model.getDevice(),model.getChannel());
+        return dao.getData(deviceid,model.getStartTime(),model.getEndTime());
+        //return dao.findAllWithPeriod(model.getStartTime(), model.getEndTime(), model.getChannel(), model.getDevice());
     }
 
     public List<TasksModel> getCompletedTasks(){

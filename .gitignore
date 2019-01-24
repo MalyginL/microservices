@@ -260,7 +260,6 @@ comparatoremulator/comparatoremulator.iml
 *.iml
 databaseservice/databaseservice.iml
 eurekaconfigserver/eurekaconfigserver.iml
-*.xml
 eurekaconfigserver/eurekaconfigserver.iml
 eurekaconfigserver/eurekaconfigserver.iml
 correctionservice/correctionservice.iml
@@ -268,3 +267,16 @@ zuulserver/zuulserver.iml
 externalcomparsions/target/classes/application.yaml
 correctionservice/correctionservice.iml
 databaseservice/databaseservice.iml
+.idea/libraries/Maven__org_springframework_spring_messaging_5_0_9_RELEASE.xml
+.idea/libraries/Maven__org_springframework_integration_spring_integration_core_5_0_8_RELEASE.xml
+.idea/libraries/Maven__org_springframework_integration_spring_integration_file_5_0_8_RELEASE.xml
+.idea/libraries/Maven__org_springframework_integration_spring_integration_ftp_5_0_8_RELEASE.xml
+.idea/libraries/Maven__org_springframework_integration_spring_integration_smb_0_5_0_RELEASE.xml
+.idea/libraries/Maven__org_springframework_integration_spring_integration_stream_5_0_8_RELEASE.xml
+.idea/libraries/Maven__org_springframework_retry_spring_retry_1_2_2_RELEASE.xml
+.idea/libraries/Maven__org_springframework_spring_context_support_5_0_9_RELEASE.xml
+.idea/libraries/Maven__commons_net_commons_net_3_5.xml
+.idea/libraries/Maven__io_projectreactor_reactor_core_3_1_9_RELEASE.xml
+.idea/libraries/Maven__javax_servlet_servlet_api_2_4.xml
+.idea/libraries/Maven__joda_time_joda_time_2_10_1.xml
+.idea/libraries/Maven__org_codelibs_jcifs_1_3_18_2.xml
