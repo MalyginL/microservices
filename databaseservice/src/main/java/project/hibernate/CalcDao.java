@@ -9,6 +9,8 @@ import project.rest.model.TimeModel;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +92,10 @@ public class CalcDao {
             TimeModel item = new TimeModel();
             item.setType(z);
             try {
-            item.setDzch((Double) (entityManger.createQuery("select avg(s.rel_freq_diff) FROM  CalculateModel s WHERE s.calc_time>=:starttime AND s.calc_time<:endtime AND s.time_type=:type AND s.deviceid=:id  AND s.cur_var_rel_freq_diff!=null ")
+                System.out.println(deviceid);
+                System.out.println(starttime);
+                System.out.println(endtime);
+            item.setDzch((Double) (entityManger.createQuery("select avg(s.rel_freq_diff) FROM  CalculateModel s WHERE s.calc_time>:starttime AND s.calc_time<:endtime AND s.time_type=:type AND s.deviceid=:id  AND s.cur_var_rel_freq_diff!=null ")
                     .setParameter("starttime", starttime)
                     .setParameter("endtime", endtime)
                     .setParameter("id", deviceid)
@@ -98,7 +103,7 @@ public class CalcDao {
                     .getSingleResult()));
 
             item.setSko((BigDecimal) (entityManger.createNativeQuery("select STDDEV_SAMP(rel_freq_diff) from Production.calculate s " +
-                    " WHERE s.calc_time>=" +
+                    " WHERE s.calc_time>" +
                     starttime +
                     " AND s.calc_time<" +
                     endtime +
@@ -107,7 +112,7 @@ public class CalcDao {
                     " AND s.deviceid=" +
                     deviceid)
                      .getSingleResult()));
-            item.setData(entityManger.createQuery("from CalculateModel s WHERE s.calc_time>=:starttime AND s.calc_time<:endtime AND s.time_type=:type AND s.deviceid=:id AND s.cur_var_rel_freq_diff!=null")
+            item.setData(entityManger.createQuery("from CalculateModel s WHERE s.calc_time>:starttime AND s.calc_time<:endtime AND s.time_type=:type AND s.deviceid=:id AND s.rel_freq_diff!=null ")
                     .setParameter("starttime", starttime)
                     .setParameter("endtime", endtime)
                     .setParameter("id", deviceid)
@@ -118,8 +123,9 @@ public class CalcDao {
                 System.out.println(item.getData().get(item.getData().size() - 1).getRel_freq_diff());
                 System.out.println(item.getData().get(0).getRel_freq_diff());
                 item.getData().forEach(e-> System.out.println(e.getRel_freq_diff()));
-
-                item.setDrift(item.getData().get(item.getData().size() - 1).getRel_freq_diff().subtract(item.getData().get(0).getRel_freq_diff()));
+int k=endtime-starttime;
+                System.out.println(k);
+                item.setDrift((item.getData().get(item.getData().size() - 1).getRel_freq_diff().subtract(item.getData().get(0).getRel_freq_diff())).divide(new BigDecimal(String.valueOf(k)),MathContext.DECIMAL64));
             }
             catch (NullPointerException ex){
 
@@ -128,7 +134,6 @@ public class CalcDao {
         }
         return params;
     }
-
 
     public int getDeviceid(String device, short channel) {
         return 1;

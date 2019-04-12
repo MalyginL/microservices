@@ -1,80 +1,51 @@
 package project.db.model;
 
+import org.springframework.context.annotation.Primary;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "devicestatus", schema = "public", catalog = "")
+@Table(name = "devicereg", schema = "production", catalog = "")
 public class DeviceModel {
 
-    private long id;
-    private String device;
-    private short channel;
-    private short status;
-    private String servicename;
-    private String comport;
+   private int deviceid;
+   private String devicename;
+   private String comport;
+   private short channel;
 
-    public DeviceModel(){
-
+    public DeviceModel() {
     }
 
-    public DeviceModel(String device, short channel, short status, String servicename, String comport) {
-        this.device = device;
-        this.channel = channel;
-        this.status = status;
-        this.servicename = servicename;
+    public DeviceModel( String devicename, String comport, short channel) {
+        this.devicename = devicename;
         this.comport = comport;
+        this.channel = channel;
     }
+
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Primary
+    @Column(name = "deviceid", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId() {
-        return id;
+    public int getDeviceid() {
+        return deviceid;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "device")
-    public String getDevice() {
-        return device;
-    }
-
-    public void setDevice(String device) {
-        this.device = device;
-    }
-    @Basic
-    @Column(name = "channel")
-    public short getChannel() {
-        return channel;
-    }
-
-    public void setChannel(short channel) {
-        this.channel = channel;
-    }
-    @Basic
-    @Column(name = "status")
-    public short getStatus() {
-        return status;
-    }
-
-    public void setStatus(short status) {
-        this.status = status;
-    }
-    @Basic
-    @Column(name = "servicename")
-    public String getServicename() {
-        return servicename;
-    }
-
-    public void setServicename(String servicename) {
-        this.servicename = servicename;
+    public void setDeviceid(int deviceid) {
+        this.deviceid = deviceid;
     }
 
     @Basic
-    @Column(name = "comport")
+    @Column(name = "devicename", nullable = false)
+    public String getDevicename() {
+        return devicename;
+    }
+
+    public void setDevicename(String devicename) {
+        this.devicename = devicename;
+    }
+    @Basic
+    @Column(name = "comport", nullable = false)
     public String getComport() {
         return comport;
     }
@@ -82,7 +53,13 @@ public class DeviceModel {
     public void setComport(String comport) {
         this.comport = comport;
     }
+    @Basic
+    @Column(name = "channel", nullable = false)
+    public short getChannel() {
+        return channel;
+    }
 
-
-
+    public void setChannel(short channel) {
+        this.channel = channel;
+    }
 }

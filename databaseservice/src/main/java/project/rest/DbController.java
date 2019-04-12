@@ -22,6 +22,7 @@ public class DbController {
 
     @RequestMapping("/getdata")
     public ResponseEntity<Collection<CalculateModel>> getData(@RequestBody RequestModel model) {
+
         return new ResponseEntity<>(service.getData(model), HttpStatus.OK);
     }
 
@@ -58,6 +59,11 @@ public class DbController {
     @RequestMapping(value = "/getstat/{deviceid}/{starttime}/{endtime}", method = RequestMethod.GET)
     public ResponseEntity<Collection<TimeModel>> startTask(@PathVariable int deviceid, @PathVariable int starttime, @PathVariable int endtime){
         return  new ResponseEntity<>(service.getResult(deviceid,starttime,endtime),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public ResponseEntity<String> startTask(){
+        return  new ResponseEntity<>("test",HttpStatus.OK);
     }
 
 }

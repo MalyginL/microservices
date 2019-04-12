@@ -27,10 +27,10 @@ public class CronTimer {
     @Scheduled(cron = "0 * * * * *")
     public void calculate() {
         double jday = ((DateTimeUtils.toJulianDayNumber(System.currentTimeMillis())) - 2400006D) / 1000D;
-//        System.out.println(rirt + "\\6RRT" + (int) (jday * 1000D) + ".dat");
-//        System.out.println(new File(rirt + "\\6RRT" + (int) (jday * 1000D) + ".dat").exists());
-//        System.out.println(new File(local + "\\GMSU19" + jday).exists());
-//        System.out.println(local + "\\GMSU19" + jday);
+        System.out.println(rirt + "\\6RRT" + (int) (jday * 1000D) + ".dat");
+        System.out.println(new File(rirt + "\\6RRT" + (int) (jday * 1000D) + ".dat").exists());
+        System.out.println(new File(local + "\\GMSU19" + jday).exists());
+        System.out.println(local + "\\GMSU19" + jday);
 
 
 

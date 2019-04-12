@@ -42,7 +42,7 @@ Upload {
                     service.send(queue.poll());
                 }
 
-                Thread.currentThread().sleep(500);
+                Thread.currentThread().sleep(900);
             }
             catch (UnexpectedRollbackException  ex){
                 System.out.println("non-uniq");

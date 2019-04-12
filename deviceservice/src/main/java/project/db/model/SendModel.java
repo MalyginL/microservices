@@ -4,21 +4,19 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "rawdata", schema = "public", catalog = "")
+@Table(name = "rawdata", schema = "production", catalog = "")
 public class SendModel {
 
     SendModel(){}
 
-    public SendModel(String device, short channel, BigDecimal rawdata, int rawtime) {
-        this.device = device;
-        this.channel = channel;
+    public SendModel(int deviceid, BigDecimal rawdata, int rawtime) {
+        this.deviceid = deviceid;
         this.rawdata = rawdata;
         this.rawtime = rawtime;
     }
 
     private long id;
-    private String device;
-    private short channel;
+    private int deviceid;
     private BigDecimal rawdata;
     private int rawtime;
 
@@ -34,23 +32,13 @@ public class SendModel {
     }
 
     @Basic
-    @Column(name = "device", nullable = false, length = 10)
-    public String getDevice() {
-        return device;
+    @Column(name = "deviceid", nullable = false, length = 10)
+    public int getDevice() {
+        return deviceid;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
-    }
-
-    @Basic
-    @Column(name = "channel", nullable = false)
-    public short getChannel() {
-        return channel;
-    }
-
-    public void setChannel(short channel) {
-        this.channel = channel;
+    public void setDevice(int deviceid) {
+        this.deviceid = deviceid;
     }
 
     @Basic

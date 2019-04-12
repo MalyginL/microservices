@@ -11,15 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EurekaRenewedListener implements ApplicationListener<EurekaInstanceRegisteredEvent>{
+public class EurekaRenewedListener implements ApplicationListener<EurekaInstanceRegisteredEvent> {
 
- private List<String> device = new ArrayList();
+    private List<String> device = new ArrayList();
 
     public void onApplicationEvent(EurekaInstanceRegisteredEvent eurekaInstanceRegisteredEvent) {
 
-        if(eurekaInstanceRegisteredEvent.isReplication()) {
-            if(eurekaInstanceRegisteredEvent.getInstanceInfo().getAppName().startsWith("VCH"))
-            {
+        if (eurekaInstanceRegisteredEvent.isReplication()) {
+            if (eurekaInstanceRegisteredEvent.getInstanceInfo().getAppName().startsWith("VCH")) {
                 device.add(eurekaInstanceRegisteredEvent.getInstanceInfo().getAppName());
             }
         }

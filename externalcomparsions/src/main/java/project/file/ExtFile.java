@@ -51,7 +51,6 @@ public class ExtFile {
                             array[22]));
                 }
             }
-
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -65,9 +64,7 @@ public class ExtFile {
                 e.setRefsv((second.get(second.indexOf(e)).getRefsv().subtract(e.getRefsv())));
                 //         System.out.println((second.get(second.indexOf(e)).getRefsv() + "/" + e.getRefsv()));
                 result.add(e);
-
             }
-
         });
         return result;
     }
@@ -84,7 +81,6 @@ public class ExtFile {
                 map.put(e.getFrc(), model);
             }
         }
-
         return map;
     }
 
@@ -96,7 +92,7 @@ public class ExtFile {
             for (FileModel f : model) {
                 summ = summ.add(f.getRefsv());
             }
-            BigDecimal sred = summ.divide(new BigDecimal(model.size()), 20, RoundingMode.CEILING);
+            BigDecimal sred = summ.divide(new BigDecimal(model.size()), 16, RoundingMode.CEILING);
             List<FileModel> re = new ArrayList<>();
             for (FileModel f : model) {
                 System.out.println(f.getRefsv().subtract(sred).abs());
@@ -136,8 +132,8 @@ public class ExtFile {
         System.out.println("N   " + num);
         System.out.println("----------");
         BigDecimal a = ((num.multiply(sumxy, MathContext.UNLIMITED)).subtract(sumx.multiply(sumy, MathContext.UNLIMITED)))
-                .divide(num.multiply(sumx2, MathContext.UNLIMITED).subtract(sumx.pow(2)), 40, RoundingMode.CEILING);
-        BigDecimal b = new BigDecimal((sumy.subtract(a.multiply(sumx, MathContext.UNLIMITED))).divide(num, 40, RoundingMode.CEILING).toString());
+                .divide(num.multiply(sumx2, MathContext.UNLIMITED).subtract(sumx.pow(2)), 15, RoundingMode.CEILING);
+        BigDecimal b = new BigDecimal((sumy.subtract(a.multiply(sumx, MathContext.UNLIMITED))).divide(num, 15, RoundingMode.CEILING).toString());
         System.out.println("a =" + a);
         System.out.println("b =" + b);
 
@@ -174,10 +170,10 @@ public class ExtFile {
 
 
      //   System.out.println("summ1" + summ);
-        summ = summ.divide(new BigDecimal(String.valueOf(list.size() - 1)), 100, RoundingMode.CEILING);
+        summ = summ.divide(new BigDecimal(String.valueOf(list.size() - 1)), 15, RoundingMode.CEILING);
     //    System.out.println("summ skdo" + summ);
 
-        skdo = sqrtBabylon(summ, 70);
+        skdo = sqrtBabylon(summ, 16);
         return skdo;
     }
 

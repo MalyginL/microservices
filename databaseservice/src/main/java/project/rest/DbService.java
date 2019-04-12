@@ -26,9 +26,9 @@ public class DbService {
     CalcDao dao;
 
     public List<CalculateModel> getData(RequestModel model) {
-        int deviceid = dao.getDeviceid(model.getDevice(),model.getChannel());
+      //  int deviceid = dao.getDeviceid(model.getDevice(),model.getChannel());
+        int deviceid= Integer.valueOf(model.getDevice());
         return dao.getData(deviceid,model.getStartTime(),model.getEndTime());
-        //return dao.findAllWithPeriod(model.getStartTime(), model.getEndTime(), model.getChannel(), model.getDevice());
     }
 
     public List<TasksModel> getCompletedTasks(){
@@ -42,6 +42,7 @@ public class DbService {
 
     public List<String> loadDevices() {
         return dao.getDevices();
+      //  return null;
     }
 
     public List<Short> loadChannels(String device) {

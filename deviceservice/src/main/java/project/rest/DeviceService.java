@@ -1,7 +1,6 @@
 package project.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import project.db.SendService;
 import project.db.Upload;
 import project.db.model.DeviceModel;
@@ -35,7 +34,7 @@ public class DeviceService {
         upload.upload();
         jssc.configure();
     }
-    public void setName(String name){
+    public void setName(int name){
         byteParse.setDeviceName(name);
     }
 
@@ -45,11 +44,6 @@ public class DeviceService {
     }
 
     public void register(DeviceModel model){
-        System.out.println(model.getChannel());
-        System.out.println(model.getComport());
-        System.out.println(model.getDevice());
-        System.out.println(model.getServicename());
-        System.out.println(model.getStatus());
         send.saveDevice(model);
     }
 

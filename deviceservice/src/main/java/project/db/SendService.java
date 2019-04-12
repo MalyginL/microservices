@@ -4,6 +4,7 @@ package project.db;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.db.model.DeviceModel;
+import project.db.model.DeviceStatus;
 import project.db.model.SendModel;
 
 import javax.persistence.EntityManager;
@@ -28,7 +29,7 @@ public class SendService {
     }
     @Transactional
     public void saveDevice(DeviceModel model){
+        DeviceModel managedEntity  = entityManager.merge(model);
         System.out.println("SAVED");
-        entityManager.merge(model);
     }
 }

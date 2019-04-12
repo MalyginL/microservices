@@ -13,12 +13,12 @@ public class SmbConfig {
 
 
     public File getFile(){
-        return new File("ftp\\GMSU1958.464");
+        return new File("ftp\\GMSU1958.536");
     }
-//\\192.168.101.141\6rrt\BIPM\6RRT58464.dat
-//true
-//true
-//ftp\GMSU1958.464
+// \\192.168.101.141\6rrt\BIPM\6RRT58464.dat
+// true
+// true
+// ftp\GMSU1958.464
 
 
     public boolean name(){
@@ -31,7 +31,6 @@ public class SmbConfig {
             String s;
             while((s=br.readLine())!=null){
                 String[] array = s.trim().split("\\W+");
-
                 System.out.println(array[0] + "|" + array[3] + "|"+array[4] + "|"+array[5] + "|"+array[7] + "|"+array[22] + "|");
             }
         }
